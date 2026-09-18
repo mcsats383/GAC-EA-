@@ -1,39 +1,50 @@
 # GAC-EA-
 
-GAC-EA is an MT5 Expert Advisor research foundation for gold and other volatile instruments. It is designed to be validated systematically; it does **not** promise profit.
+GAC-EA is a research MT5 Expert Advisor for gold and other volatile instruments. It is a foundation build intended for systematic validation, not a guarantee of profit.
 
-## Current implementation
+## Current status
 
-- EMA trend filter and RSI momentum confirmation
-- ATR-based stop-loss and take-profit
-- Position sizing based on `OrderCalcProfit` and broker constraints
-- Maximum open positions by symbol and magic number
-- Maximum spread and broker session filters
-- Optional tick-volume confirmation
-- Daily realized plus floating loss protection
-- New-bar execution and closed-candle indicator readings
-- Breakout confirmation using a configurable lookback range
-- Stop-level validation and trade-result logging
+This project is in a research and validation state. It includes:
 
-## Installation
+- EMA trend logic and RSI momentum filtering
+- ATR-based SL/TP logic
+- Basic risk gating for daily loss, drawdown, exposure, and consecutive losses
+- Position count, spread, and session filtering
+- Trailing stop logic for open profitable trades
+- A strict signal-triage model that requires multiple confirmations before entry
 
-1. Open MetaEditor in MT5.
-2. Copy `Experts/GAC_EA/GAC_EA.mq5` to `MQL5/Experts/GAC_EA/`.
-3. Compile the file.
-4. Attach it to a demo XAUUSD chart first.
-5. Check the Experts log, spread, stop-level rules, and execution results.
+## Important warning
 
-## Validation before live use
+This EA does not claim verified profitability. It is not a money-making system by default. Real-world performance depends on broker conditions, symbol specs, trading session, slippage, execution quality, and market regime.
 
-Backtest profitability is not proof of future performance. Use real-tick testing where available, realistic commission/spread/slippage, an untouched out-of-sample period, walk-forward testing, and 2–6 weeks of demo forward testing. Start with 0.25%–1.0% risk per trade while validating.
+## Files in this repository
 
-## Known limitations
+- `Experts/GAC_EA/GAC_EA.mq5` — MT5 EA source
+- `docs/BacktestPlan.md` — backtest, walk-forward, stress, and validation plan
+- `docs/TestingPlan.md` — earlier validation notes
+- `README.md` — project overview and risk notes
 
-- No economic-news calendar filter yet.
-- Daily loss protection is scoped to the current symbol and magic number.
-- Tick volume is only a proxy for activity.
-- This repository does not claim independently verified profitability.
+## Recommended workflow
+
+1. Compile the EA in MetaEditor.
+2. Run the Strategy Tester with realistic costs and real-tick data where possible.
+3. Validate on out-of-sample data.
+4. Run a demo forward test for at least 2–6 weeks.
+5. Only then consider a very small pilot with strict loss controls.
 
 ## Risk warning
 
-Leveraged gold, crypto, CFDs, and derivatives can cause rapid loss of capital. Use a demo account and independently verify every result before considering real-money use.
+Trading gold, crypto, CFDs, and other leveraged instruments can cause rapid loss of capital. Use a demo account, verify results independently, and never assume a backtest is predictive of live performance.
+
+## Validation requirement before live use
+
+The EA should be considered only after the following have passed:
+
+- compile without errors
+- backtest with realistic assumptions
+- out-of-sample validation
+- stress testing
+- walk-forward examination
+- demo forward testing with stable execution
+
+If those gates are not passed, this project remains a research prototype and not a live trading system.
