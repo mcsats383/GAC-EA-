@@ -1,50 +1,33 @@
 # GAC-EA-
 
-GAC-EA is a research MT5 Expert Advisor for gold and other volatile instruments. It is a foundation build intended for systematic validation, not a guarantee of profit.
+GAC-EA is a **research and validation** MT5 Expert Advisor foundation for gold and other volatile instruments. It is designed for disciplined experimentation; it does not promise profit, market outperformance, or suitability for live trading.
 
-## Current status
+## Current implementation
 
-This project is in a research and validation state. It includes:
+- Closed-candle EMA trend and RSI confirmation
+- ATR-based stop loss and take profit
+- New-bar, session, spread, body-size, volume, and breakout filters
+- Risk-based position sizing using `OrderCalcProfit`
+- Daily loss and account-equity drawdown entry guards
+- Consecutive-loss lockout, position cap, exposure cap, and margin-level checks
+- Broker-aware stop validation and volume-step normalization
+- Break-even and ATR trailing-stop management that never intentionally moves a stop backward
+- Structured signal and execution logs with trade retcodes
 
-- EMA trend logic and RSI momentum filtering
-- ATR-based SL/TP logic
-- Basic risk gating for daily loss, drawdown, exposure, and consecutive losses
-- Position count, spread, and session filtering
-- Trailing stop logic for open profitable trades
-- A strict signal-triage model that requires multiple confirmations before entry
+## Source and testing
 
-## Important warning
+- `Experts/GAC_EA/GAC_EA.mq5` — MT5 Expert Advisor source
+- `docs/BacktestPlan.md` — realistic-cost backtest and walk-forward protocol
+- `docs/TestingPlan.md` — compile, smoke, historical, and forward-test gates
+- `docs/DemoInputSet.md` — conservative starting inputs
+- `docs/DemoTestChecklist.md` — controlled demo checklist
 
-This EA does not claim verified profitability. It is not a money-making system by default. Real-world performance depends on broker conditions, symbol specs, trading session, slippage, execution quality, and market regime.
+Compile the exact commit in MetaEditor, then use MT5 Strategy Tester with real ticks where available. Record broker, symbol specification, timeframe, costs, inputs, and the commit SHA for every run. Keep development, out-of-sample, and final holdout periods separate.
 
-## Files in this repository
+## Conservative starting profile
 
-- `Experts/GAC_EA/GAC_EA.mq5` — MT5 EA source
-- `docs/BacktestPlan.md` — backtest, walk-forward, stress, and validation plan
-- `docs/TestingPlan.md` — earlier validation notes
-- `README.md` — project overview and risk notes
+Use the values in `docs/DemoInputSet.md` as a starting point only. Freeze the parameters for the test window. Run a demo account for at least 2–6 weeks or 100 representative trades, with no live-money deployment until compile, smoke, out-of-sample, stress, walk-forward, and demo gates pass.
 
-## Recommended workflow
+## Safety
 
-1. Compile the EA in MetaEditor.
-2. Run the Strategy Tester with realistic costs and real-tick data where possible.
-3. Validate on out-of-sample data.
-4. Run a demo forward test for at least 2–6 weeks.
-5. Only then consider a very small pilot with strict loss controls.
-
-## Risk warning
-
-Trading gold, crypto, CFDs, and other leveraged instruments can cause rapid loss of capital. Use a demo account, verify results independently, and never assume a backtest is predictive of live performance.
-
-## Validation requirement before live use
-
-The EA should be considered only after the following have passed:
-
-- compile without errors
-- backtest with realistic assumptions
-- out-of-sample validation
-- stress testing
-- walk-forward examination
-- demo forward testing with stable execution
-
-If those gates are not passed, this project remains a research prototype and not a live trading system.
+Leveraged trading can cause rapid loss of capital. Do not use this EA with money you cannot afford to lose. Never place credentials, broker passwords, API keys, or account exports in the repository. A backtest or demo result is not evidence of future live performance.
